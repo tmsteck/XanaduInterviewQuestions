@@ -2,7 +2,7 @@
 
 Carefully explain in your own words: 
 
-##### Why can quantum computing provide speedups for simulating quantum systems? 
+### Why can quantum computing provide speedups for simulating quantum systems? 
 
 It is well know that classical and quantum information behave differently -- classical information is a subset of quantum information. Thus, in studying quantum systems, a key advantage of quantum computers is the capacity to prepare and store a quantum state using quantum and not classical storage. As quantum systems can be stored directly on qubits with limited overhead, we require 2^{n + 1} - 2 floats to store the same information. Similarly, to manipulate the information, in the worst case we must apply matrix multiplication to the full state space, which is exponentially hard. In studying quantum systems, it is well know that we can evolve a prepared state using O(n^2*t) operations. So, the storage of the information is polynomial and the evolution is polynomial. This means that, provided the Hamiltonian of a system and the initial state can be expressed with a polynomial number of parameters, we can study quantum systems by digitally mapping their dynamics to the evolution of a quantum state on a quantum system. 
 
@@ -10,7 +10,7 @@ A key challenge is in encoding the exponential complexity of the state using gat
 
 
 
-##### Describe the variational quantum eigensolver algorithm. How can it be used to prepare eigenstates of input Hamiltonians? How can we compute expectation value without increasing circuit depth? How does the number of samples needed to compute an expectation value scale with the target error and number of local terms in the Hamiltonian?
+### Describe the variational quantum eigensolver algorithm. How can it be used to prepare eigenstates of input Hamiltonians? How can we compute expectation value without increasing circuit depth? How does the number of samples needed to compute an expectation value scale with the target error and number of local terms in the Hamiltonian?
 
 The variational quantum eigensolver algorithm (VQE) exploits the variational principle in quantum mechanics: for states with given Hamiltonian, the measured energy of the state will be equal to or larger than the ground state of the Hamiltonian. VQE takes as an input a parameterized circuit ansatz for the ground state -- which much contain the ground state within the parameter state space -- a Hamiltonian for which to find the ground state, and an initial guess of the ansatz parameters. The algorithm iterates through guesses for the parameters in order to minimize the expectation value of the Hamiltonian provided. The quantum computer is used to measure the energy of the input state, and a classical computer is used to run an optimization algorithm which, using the quantum cost function, minimizes the parameters. Once minimized, the input parameters and the cost function provide an efficient method to prepare the groundstate and the compute ground energy of the Hamiltonian, respectively. 
 
@@ -40,12 +40,17 @@ Reference:
 Two solve this problem we will use double and single excitation Givens rotations, which preserve particle number. The initial state prepared is |001100>, as it has the most overlap with the target initial state. 
 
 ```
-----|G1|--------|G3|--------------
-----|G1|---------||---------------
-X---|G1|--|G2|--|G3|--------------
-X---|G1|--|G2|---●----------------
-----------|G2|--------------------
-----------|G2|--------------------
+|0>------|G1|--------|G3|--------------
+         |  |        |  |
+|0>------|G1|--------|--|---------------
+         |  |        |  |
+|0>-|X|--|G1|--|G2|--|G3|--------------
+         |  |  |  |   |
+|0>-|X|--|G1|--|G2|---●----------------
+               |  |          
+|0>------------|G2|--------------------
+               |  |          
+|0>------------|G2|--------------------
 ```
 
 G1: <img src="https://render.githubusercontent.com/render/math?math=-2sin^{-1}(a)">
@@ -67,14 +72,14 @@ Free Parameters - a, b, c, d
    
 ### [Question 2](Question2.ipynb):
 
-Referenc
+References
 - [QAOA for MAXCUT](https://pennylane.ai/qml/demos/tutorial_qaoa_maxcut.html)
 - [qml.qaoa Documentation](https://pennylane.readthedocs.io/en/stable/code/qml_qaoa.html)
 > Now consider the complete graph on six nodes. Use the QAOA module in PennyLane to nstruct the cost Hamiltonian of this graph for the MaxCut problem. Train your circuit to minimize the expectation value of this Hamiltonian. Hint: You may find this demo useful
 
 Hamiltonian:
 ```
-H = 1/2(ZZIIII + ZIZIII + ZIIZII + ZIIIZI + ZIIIIZ +
+H = -7.5I + 1/2(ZZIIII + ZIZIII + ZIIZII + ZIIIZI + ZIIIIZ +
 IZZIII + IZIZII + IZIIZI + IZIIIZ +
 IIZZII + IIZIZI + IIZIIZ +
 IIIZZI + IIIZIZ +
